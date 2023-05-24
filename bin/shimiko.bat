@@ -1,7 +1,7 @@
 @echo off&if "~x0"=="%~x0" exit/b2
 setlocal EnableDelayedExpansion EnableExtensions&set:=!CMDCMDLINE://=!
 :_
-for /f "tokens=1,* delims=/" %%k in ("!:!") do set+=%%l&set.=!+:~0,1!&if /i "!.!"=="c" (exit/b1) else if /i "!.!"=="k" (goto:-) else if defined + set:=%%l&goto:_
+for /f "tokens=1,* delims=/" %%k in ("!:!") do set.=%%l&set+=!.:~0,1!&if /i "!+!"=="c" (exit/b1) else if /i "!+!"=="k" (goto:-) else if defined . set:=%%l&goto:_
 :-
 endlocal&for /f delims^= %%p in ("%HOMEDRIVE%%HOMEPATH%\.cmd") do for /f "tokens=1,2 delims=d" %%a in ("-%%~ap") do if "%%~b"=="" if not "%%~a"=="-" call "%%~fp"
 exit/b
