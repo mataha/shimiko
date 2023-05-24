@@ -1,6 +1,6 @@
 # `shimiko`
 
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](assets/repostatus.org/badges/wip.svg)](https://www.repostatus.org/#wip)
+[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](../assets/repostatus.org/badges/wip.svg)](https://www.repostatus.org/#wip)
 
 This is a work in progress - look forward to it!
 
