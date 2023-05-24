@@ -1,0 +1,37 @@
+name: Lint GitHub Actions workflows
+
+on:
+  push:
+    branches:
+      - master
+    tags-ignore:
+      - '**'
+    paths:
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+jobs:
+  actionlint:
+    name: Lint workflow files
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout the latest code
+        uses: actions/checkout@v3
+
+      - name: Download actionlint
+        id: download_actionlint
+        run: |
+          bash <(curl "https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash")
+
+      - name: Enable actionlint matcher
+        run: |
+          echo "::add-matcher::.github/actionlint-matcher.json"
+
+      - name: Lint workflow files using actionlint
+        run: |
+          ${{ steps.download_actionlint.outputs.executable }} -color
