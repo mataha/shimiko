@@ -1,9 +1,9 @@
 @echo off&if "~x0"=="%~x0" exit/b2
-setlocal EnableDelayedExpansion EnableExtensions&set:=!CMDCMDLINE://=!&set;=for /f "tokens=1,* delims=
+setlocal EnableDelayedExpansion EnableExtensions&set+=!CMDCMDLINE://=!&set;=for /f "tokens=1,* delims=
 :_
-%;%/" %%k in ("!:!") do set.=%%l&set+=!.:~0,1!&if /i "!+!"=="c" (exit/b1) else if /i "!+!"=="k" (goto:-) else if defined . set:=%%l&goto:_
+%;%/" %%k in ("!+!") do set.=%%l&set:=!.:~0,1!&if /i "!:!"=="c" (exit/b1) else if /i "!:!"=="k" (goto:-) else if defined . set+=%%l&goto:_
 :-
-endlocal&%;%:" %%o in (":%HOME%\.cmd") do %;%d" %%a in ("-%%~ap") do if "%%~b"=="" if not "%%~a"=="-" call "%%~fp"
+endlocal&%;%:" %%o in (":%HOME%\.cmd") do %;%d" %%a in ("-%%ap") do if "%%b"=="" if not "%%a"=="-" call "%%~fp"
 exit/b
 ::! Copyright (c) Mateusz "mataha" Kazimierczuk; all rights reserved.
 ::!
