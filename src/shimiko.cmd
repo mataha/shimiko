@@ -84,9 +84,16 @@
     endlocal & set "CMD_FLAGS=%cmd_flags./c%%cmd_flags./k%%cmd_flags./s%" & (
         if defined CMD_ENV if "%cmd_flags./c%"=="" (
             for /f "usebackq delims=" %%p in (`"echo(%CMD_ENV%"`) do (
-                for /f "tokens=1,* delims=d" %%a in ("-%%~ap") do (
-                    if "%%~b"=="" if not "%%~a"=="-" call "%%~fp" 2>nul
-                )
+                call :is_regular_file "%%~p" && call "%%~fp" 2>nul
             )
         )
     ) & exit /b
+
+:is_regular_file (path) -> Result
+    for /f "tokens=1,* delims=d" %%a in ("-%~a1") do (
+        if "%%~b"=="" if not "%%~a"=="-" (
+            exit /b 0 &@rem FILE_ATTRIBUTE_NORMAL at the very least
+        )
+    )
+
+    exit /b 1 &@rem FILE_ATTRIBUTE_DIRECTORY or not available or does not exist

@@ -32,7 +32,7 @@
     endlocal & (set "%~1=%workspace_root%") & exit /b 0
 
 :is_regular_file (path) -> Result
-    for /f "tokens=1,2 delims=d" %%a in ("-%~a1") do if not "%%~b"=="" (
+    for /f "tokens=1,* delims=d" %%a in ("-%~a1") do if not "%%~b"=="" (
         exit /b 1 &@rem FILE_ATTRIBUTE_DIRECTORY
     ) else if not "%%~a"=="-" (
         exit /b 0 &@rem FILE_ATTRIBUTE_NORMAL at the very least
