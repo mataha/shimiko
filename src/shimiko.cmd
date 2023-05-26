@@ -84,7 +84,7 @@
     endlocal & set "CMD_FLAGS=%cmd_flags./c%%cmd_flags./k%%cmd_flags./s%" & (
         if defined CMD_ENV if "%cmd_flags./c%"=="" (
             for /f "usebackq delims=" %%p in (`"echo(%CMD_ENV%"`) do (
-                call :is_regular_file "%%~p" && call "%%~fp" 2>nul
+                call :is_regular_file "%%~p" && call "%%~fp" 2>nul || exit /b 0
             )
         )
     ) & exit /b
