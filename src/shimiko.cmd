@@ -30,8 +30,7 @@
         set "CMD_ENV="
         set "CMD_FLAGS="
         set "CMD_VERSION="
-        exit /b
-    )
+    ) & exit /b
 
     ::: if in a pipe etcetc
     ::+ See also: https://nodejs.org/api/child_process.html#shell-requirements
@@ -85,7 +84,7 @@
     ::: execute CMD_ENV if it exists and is a regular file
     endlocal & set "CMD_FLAGS=%cmd_flags./c%%cmd_flags./k%%cmd_flags./s%" & (
         if defined CMD_ENV if "%cmd_flags./c%"=="" (
-            for /f "delims=" %%p in ("%CMD_ENV%") do (
+            for /f "usebackq delims=" %%p in (`echo(%CMD_ENV%`) do (
                 for /f "tokens=1,* delims=d" %%a in ("-%%~ap") do (
                     if "%%~b"=="" if not "%%~a"=="-" call "%%~fp"
                 )
