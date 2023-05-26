@@ -26,7 +26,12 @@
     ::: Check for Command Extensions; if disabled, unset all environment
     ::: variables that could have been provided by an execution of this
     ::: script by the parent shell's AutoRun command and exit immediately
-    if "~x0"=="%~x0" set "CMD=" & set "CMD_ENV=" & set "CMD_FLAGS=" & exit /b
+    if "~x0"=="%~x0" (
+        set "CMD_ENV="
+        set "CMD_FLAGS="
+        set "CMD_VERSION="
+        exit /b
+    )
 
     ::: if in a pipe etcetc
     ::+ See also: https://nodejs.org/api/child_process.html#shell-requirements
@@ -34,7 +39,9 @@
 
     ::+ If set, expands to the current Command Processor Extensions version
     ::+ number
-    set "CMD=%CMDEXTVERSION%" & setlocal EnableDelayedExpansion EnableExtensions
+    set "CMD_VERSION=%CMDEXTVERSION%"
+
+    setlocal EnableDelayedExpansion EnableExtensions
 
     ::: Escape slashes first - we're fine with not replacing them with anything,
     ::: as the rest of the command doesn't matter

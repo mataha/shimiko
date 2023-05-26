@@ -1,5 +1,5 @@
-@if "~x0"=="%~x0" set CMD=&set CMD_ENV=&set CMD_FLAGS=&exit/b
-@set CMD=%CMDEXTVERSION%&set CMD_FLAGS=cds&setlocal EnableDelayedExpansion EnableExtensions&set+=!CMDCMDLINE://=!&set,=&set[=&set]=&set;=@for /f "tokens=1,* delims=
+@if "~x0"=="%~x0" set CMD_ENV=&set CMD_FLAGS=&set CMD_VERSION=&exit/b
+@set CMD_FLAGS=cds&set CMD_VERSION=%CMDEXTVERSION%&setlocal EnableDelayedExpansion EnableExtensions&set+=!CMDCMDLINE://=!&set,=&set[=&set]=&set;=@for /f "tokens=1,* delims=
 :_
 %;%/" %%k in ("!+!") do @set.=%%l&set:=!.:~0,1!&if defined . ((if /i "!:!"=="c" (set[=c&goto:-) else if /i "!:!"=="k" (set]=k&goto:-) else if /i "!:!"=="s" set,=s)&set+=!.:~1!&goto:_)
 :-

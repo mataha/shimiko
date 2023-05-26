@@ -51,9 +51,9 @@
     ::: Reset errorlevel
     (call )
 
-    set CMD=
     set CMD_ENV=
     set CMD_FLAGS=
+    set CMD_VERSION=
 
     set "CMDCMDLINE="C:\WINDOWS\system32\cmd.exe" "
     call "%binary%"
