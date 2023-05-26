@@ -85,7 +85,7 @@
         if defined CMD_ENV if "%cmd_flags./c%"=="" (
             for /f "usebackq delims=" %%p in (`"echo(%CMD_ENV%"`) do (
                 for /f "tokens=1,* delims=d" %%a in ("-%%~ap") do (
-                    if "%%~b"=="" if not "%%~a"=="-" call "%%~fp"
+                    if "%%~b"=="" if not "%%~a"=="-" call "%%~fp" 2>nul
                 )
             )
         )
