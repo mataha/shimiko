@@ -27,7 +27,6 @@
     ::: variables that could have been provided by an execution of this
     ::: script by the parent shell's AutoRun command and exit immediately
     if "~x0"=="%~x0" (
-        set "CMD_ENV="
         set "CMD_FLAGS="
         set "CMD_VERSION="
     ) & exit /b
