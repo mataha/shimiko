@@ -1,11 +1,11 @@
 @if "~x0"=="%~x0" set CMD_FLAGS=&set CMD_VERSION=&exit/b
 @setlocal EnableDelayedExpansion EnableExtensions&set+=!CMDCMDLINE://=!&set,=&set[=&set]=&set(= @if /i &set\=goto:-)else&set;=@for /f "tokens=1,* delims=
 :_
-%;%/" %%k in ("!+!") do @set.=%%l&set:=!.:~0,1!&if defined . ((%(%"!:!"=="c" (set[=c&%\%%(%"!:!"=="k" (set]=k&%\%%(%"!:!"=="s" set,=s)&set+=!.:~1!&goto:_)
+%;%/" %%k in ("!+!") do @set.=%%~l&set:=!.:~0,1!&if defined . ((%(%"!:!"=="c" (set[=c&%\%%(%"!:!"=="k" (set]=k&%\%%(%"!:!"=="s" set,=s)&set+=!.:~1!&goto:_)
 :-
 %(%%[%%]%~==~ set,=
-@endlocal&set/a "CMD_VERSION=%CMDEXTVERSION%+0"2>&1>nul&set CMD_FLAGS=%[%%]%%,%&if defined CMD_ENV%(%%[%~==~ %;%:" %%o in ('"echo(:%CMD_ENV%"') do %;%d" %%a in ("-%%ap") do%(%%%b~==~%(%not %%a~==-~ 2>nulcall "%%~fp"
-@exit/b
+@endlocal&set/a "CMD_VERSION=%CMDEXTVERSION%+0"2>&1>nul&set CMD_FLAGS=%[%%]%%,%&if defined CMD_ENV%(%%[%~==~ %;%:" %%o in ('"echo(:%CMD_ENV%"') do %;%d" %%a in ("-%%~ap") do%(%%%~b~==~%(%not %%~a~==-~ call "%%~fp"
+@exit/b0
 ::! Copyright (c) Mateusz "mataha" Kazimierczuk; all rights reserved.
 ::!
 ::! Permission is hereby granted, free of charge, to any person obtaining a

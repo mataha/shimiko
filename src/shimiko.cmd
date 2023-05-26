@@ -52,7 +52,7 @@
         ::: whichever is the first wins. To do so, we can test substrings;
         ::: if /c comes first, we're a non-interactive shell and can exit.
         for /f "tokens=1,* delims=/" %%k in ("!cmd_command!") do (
-            set "line=%%l"
+            set "line=%%~l"
             set "char=!line:~0,1!"
 
             if defined line (
@@ -63,6 +63,7 @@
                 ) else if /i "!char!"=="s" (
                     set   "cmd_flags./s=s"
                 )
+
                 set "cmd_command=!line:~1!" & goto :shimiko_loop
             )
         )
@@ -80,10 +81,10 @@
     ) & (
         if defined CMD_ENV if "%cmd_flags./c%"=="" (
             for /f "usebackq delims=" %%p in (`"echo(%CMD_ENV%"`) do (
-                call :is_regular_file "%%~p" && call "%%~fp" 2>nul || exit /b 0
+                call :is_regular_file "%%~p" && call "%%~fp"
             )
         )
-    ) & exit /b
+    ) & exit /b 0
 
 :is_regular_file (path) -> Result
     for /f "tokens=1,* delims=d" %%a in ("-%~a1") do (
