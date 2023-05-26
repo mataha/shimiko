@@ -1,1 +1,1 @@
-cmd.exe .bat AutoRun shim
+cmd.exe AutoRun .bat shim
