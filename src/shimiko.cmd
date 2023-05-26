@@ -23,37 +23,65 @@
 ::! use or other dealings in this Software without prior written authorization.
 
 @:main
-    if "~x0"=="%~x0" exit /b 2
+    ::: Check for Command Extensions; if disabled, unset all environment
+    ::: variables that could have been provided by an execution of this
+    ::: script by the parent shell's AutoRun command and exit immediately
+    if "~x0"=="%~x0" set "CMD=" & set "CMD_ENV=" & set "CMD_FLAGS=" & exit /b
 
-    setlocal EnableDelayedExpansion EnableExtensions
+    ::: if in a pipe etcetc
+    ::+ See also: https://nodejs.org/api/child_process.html#shell-requirements
+    set "CMD_FLAGS=cds"
+
+    ::+ If set, expands to the current Command Processor Extensions version
+    ::+ number
+    set "CMD=%CMDEXTVERSION%" & setlocal EnableDelayedExpansion EnableExtensions
 
     ::: Escape slashes first - we're fine with not replacing them with anything,
     ::: as the rest of the command doesn't matter
     ::: https://learn.microsoft.com/en-us/dotnet/standard/io/file-path-formats
-    set "cmd=!CMDCMDLINE://=!"
+    set "cmd_command=!CMDCMDLINE://=!"
+
+    ::+ non-interactive shell
+    set "cmd_flags./c="
+    ::+ no autorun command implicit stdin
+    set "cmd_flags./d=" #[allow(dead_code, implicit_contract, unused_variables)]
+    ::+ interactive shell
+    set "cmd_flags./k="
+    ::+ string behavior
+    set "cmd_flags./s="
 
     :shimiko_loop
         ::: What we're interested in is the order in which /c and /k come;
         ::: whichever is the first wins. To do so, we can test substrings;
         ::: if /c comes first, we're a non-interactive shell and can exit.
-        for /f "usebackq tokens=1,* delims=/" %%k in ('!cmd!') do (
+        for /f "tokens=1,* delims=/" %%k in ("!cmd_command!") do (
             set "line=%%l"
             set "char=!line:~0,1!"
 
-            if /i "!char!"=="c" (
-                @rem This is a non-interactive shell.
-                exit /b 1
-            ) else if /i "!char!"=="k" (
-                @rem This is an interactive shell.
-                goto :shimiko_break
-            ) else if defined line (
-                set "cmd=!line:~1!"
-                goto :shimiko_loop
+            if defined line (
+                %=/i=% if /i "!char!"=="c" (
+                    set   "cmd_flags./c=c"  & goto :shimiko_break
+                ) else if /i "!char!"=="k" (
+                    set   "cmd_flags./k=k"  & goto :shimiko_break
+                ) else if /i "!char!"=="s" (
+                    set   "cmd_flags./s=s"
+                )
+                set "cmd_command=!line:~1!" & goto :shimiko_loop
             )
         )
 
     :shimiko_break
-        ::: We've gone through all the arguments at this point
-        ::: This has to be an interactive shell.
+        ::: Hide `/s` if it's not paired with wither `/c` or `/k`
+        ::: as it does not do anything of relevancy on its own
+        if "%cmd_flags./c%%cmd_flags./k%"=="" set "cmd_flags./s="
 
-    endlocal & exit /b
+    ::: execute CMD_ENV if it exists and is a regular file
+    endlocal & set "CMD_FLAGS=%cmd_flags./c%%cmd_flags./k%%cmd_flags./s%" & (
+        if defined CMD_ENV if "%cmd_flags./c%"=="" (
+            for /f "delims=" %%p in ("%CMD_ENV%") do (
+                for /f "tokens=1,* delims=d" %%a in ("-%%~ap") do (
+                    if "%%~b"=="" if not "%%~a"=="-" call "%%~fp"
+                )
+            )
+        )
+    ) & exit /b

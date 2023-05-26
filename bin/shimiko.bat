@@ -1,10 +1,11 @@
-@echo off&if "~x0"=="%~x0" exit/b2
-setlocal EnableDelayedExpansion EnableExtensions&set+=!CMDCMDLINE://=!&set;=for /f "tokens=1,* delims=
+@if "~x0"=="%~x0" set CMD=&set CMD_ENV=&set CMD_FLAGS=&exit/b
+@set CMD=%CMDEXTVERSION%&set CMD_FLAGS=cds&setlocal EnableDelayedExpansion EnableExtensions&set+=!CMDCMDLINE://=!&set,=&set[=&set]=&set;=@for /f "tokens=1,* delims=
 :_
-%;%/" %%k in ("!+!") do set.=%%l&set:=!.:~0,1!&if /i "!:!"=="c" (exit/b1) else if /i "!:!"=="k" (goto:-) else if defined . set+=%%l&goto:_
+%;%/" %%k in ("!+!") do @set.=%%l&set:=!.:~0,1!&if defined . ((if /i "!:!"=="c" (set[=c&goto:-) else if /i "!:!"=="k" (set]=k&goto:-) else if /i "!:!"=="s" set,=s)&set+=!.:~1!&goto:_)
 :-
-endlocal&%;%:" %%o in (":%HOME%\.cmd") do %;%d" %%a in ("-%%ap") do if "%%b"=="" if not "%%a"=="-" call "%%~fp"
-exit/b
+@if %[%%]%~==~ set,=
+@endlocal&set CMD_FLAGS=%[%%]%%,%&if defined CMD_ENV if %[%~==~ %;%:" %%o in (":%CMD_ENV%") do %;%d" %%a in ("-%%ap") do @if %%b~==~ if not %%a~==-~ call "%%~fp"
+@exit/b
 ::! Copyright (c) Mateusz "mataha" Kazimierczuk; all rights reserved.
 ::!
 ::! Permission is hereby granted, free of charge, to any person obtaining a
