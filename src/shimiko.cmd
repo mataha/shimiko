@@ -31,14 +31,6 @@
         set "CMD_VERSION="
     ) & exit /b
 
-    ::: if in a pipe etcetc
-    ::+ See also: https://nodejs.org/api/child_process.html#shell-requirements
-    set "CMD_FLAGS=cds"
-
-    ::+ If set, expands to the current Command Processor Extensions version
-    ::+ number
-    set /a "CMD_VERSION=%CMDEXTVERSION% + 0" >nul 2>&1
-
     setlocal EnableDelayedExpansion EnableExtensions
 
     ::: Escape slashes first - we're fine with not replacing them with anything,
@@ -81,7 +73,11 @@
         if "%cmd_flags./c%%cmd_flags./k%"=="" set "cmd_flags./s="
 
     ::: execute CMD_ENV if it exists and is a regular file
-    endlocal & set "CMD_FLAGS=%cmd_flags./c%%cmd_flags./k%%cmd_flags./s%" & (
+    endlocal & (
+        set /a "CMD_VERSION=%CMDEXTVERSION% + 0" >nul 2>&1
+    ) & (
+        set "CMD_FLAGS=%cmd_flags./c%%cmd_flags./k%%cmd_flags./s%" >nul 2>&1
+    ) & (
         if defined CMD_ENV if "%cmd_flags./c%"=="" (
             for /f "usebackq delims=" %%p in (`"echo(%CMD_ENV%"`) do (
                 call :is_regular_file "%%~p" && call "%%~fp" 2>nul || exit /b 0
