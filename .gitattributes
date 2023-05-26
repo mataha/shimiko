@@ -1,4 +1,4 @@
 * text=auto eol=lf
 
-*.bat text eol=crlf linguist-generated
+*.bat text eol=crlf -diff linguist-generated
 *.cmd text eol=crlf
