@@ -37,7 +37,7 @@
 
     ::+ If set, expands to the current Command Processor Extensions version
     ::+ number
-    set "CMD_VERSION=%CMDEXTVERSION%"
+    set /a "CMD_VERSION=%CMDEXTVERSION% + 0" >nul 2>&1
 
     setlocal EnableDelayedExpansion EnableExtensions
 
