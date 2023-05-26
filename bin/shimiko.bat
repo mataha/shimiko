@@ -4,7 +4,7 @@
 %;%/" %%k in ("!+!") do @set.=%%l&set:=!.:~0,1!&if defined . ((%(%"!:!"=="c" (set[=c&%\%%(%"!:!"=="k" (set]=k&%\%%(%"!:!"=="s" set,=s)&set+=!.:~1!&goto:_)
 :-
 %(%%[%%]%~==~ set,=
-@endlocal&set CMD_FLAGS=%[%%]%%,%&if defined CMD_ENV%(%%[%~==~ %;%:" %%o in ('echo(:%CMD_ENV%') do %;%d" %%a in ("-%%ap") do%(%%%b~==~%(%not %%a~==-~ call "%%~fp"
+@endlocal&set CMD_FLAGS=%[%%]%%,%&if defined CMD_ENV%(%%[%~==~ %;%:" %%o in ('"echo(:%CMD_ENV%"') do %;%d" %%a in ("-%%ap") do%(%%%b~==~%(%not %%a~==-~ call "%%~fp"
 @exit/b
 ::! Copyright (c) Mateusz "mataha" Kazimierczuk; all rights reserved.
 ::!
