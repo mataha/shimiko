@@ -40,11 +40,9 @@
 
     ::+ non-interactive shell
     set "cmd_flags./c="
-    ::+ no autorun command implicit stdin
-    set "cmd_flags./d=" #[allow(dead_code, implicit_contract, unused_variables)]
     ::+ interactive shell
     set "cmd_flags./k="
-    ::+ string behavior
+    ::+ string behavior - strip quotes
     set "cmd_flags./s="
 
     :shimiko_loop
@@ -62,6 +60,8 @@
                     set   "cmd_flags./k=k"  & goto :shimiko_break
                 ) else if /i "!char!"=="s" (
                     set   "cmd_flags./s=s"
+                ) else if /i "!char!"=="d" (
+                    (goto) 2>nul & exit /b 1 &@rem unreachable!("no AutoRun");
                 )
 
                 set "cmd_command=!line:~1!" & goto :shimiko_loop
