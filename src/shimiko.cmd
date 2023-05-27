@@ -50,7 +50,7 @@
         ::: whichever is the first wins. To do so, we can test substrings;
         ::: if /c comes first, we're a non-interactive shell and can exit.
         for /f "tokens=1,* delims=/" %%k in ("!cmd_command!") do (
-            set "line=%%~l"
+            set "line=%%l"
             set "char=!line:~0,1!"
 
             if defined line (
@@ -81,7 +81,7 @@
     ) & (
         if defined CMD_ENV if "%cmd_flags./c%"=="" call :is_interactive && (
             for /f "usebackq delims=" %%p in (`"echo(%CMD_ENV%"`) do (
-                call :is_regular_file "%%~p" && call "%%~fp"
+                call :is_regular_file "%%~p" && call "%%~fp" 2>nul
             )
         )
     ) & exit /b 0
