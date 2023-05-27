@@ -79,16 +79,19 @@
     ) & (
         set "CMD_FLAGS=%cmd_flags./c%%cmd_flags./k%%cmd_flags./s%" >nul 2>&1
     ) & (
-        if defined CMD_ENV if "%cmd_flags./c%"=="" (
+        if defined CMD_ENV if "%cmd_flags./c%"=="" call :is_interactive && (
             for /f "usebackq delims=" %%p in (`"echo(%CMD_ENV%"`) do (
                 call :is_regular_file "%%~p" && call "%%~fp"
             )
         )
     ) & exit /b 0
 
+:is_interactive () -> Result
+    "%SystemRoot%\System32\timeout.exe" 0 >nul 2>nul & exit /b
+
 :is_regular_file (path) -> Result
     for /f "tokens=1,* delims=d" %%a in ("-%~a1") do (
-        if "%%~b"=="" if not "%%~a"=="-" (
+        if "%%b"=="" if not "%%a"=="-" (
             exit /b 0 &@rem FILE_ATTRIBUTE_NORMAL at the very least
         )
     )
