@@ -96,5 +96,3 @@ set $println=echo
 %$doskey% /exename=%SHELL% ^!^! = ^>%STREAM% (if "^!^"=="^!" (%$println% %text_expansion% %text_enabled%.) else (%$println% %text_expansion% %text_disabled%.)) ^& %$true%
 
 if "%OS%"=="Windows_NT" endlocal
-
-exit /b 0 2>nul
