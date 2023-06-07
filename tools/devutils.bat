@@ -27,10 +27,10 @@ set diagnostics_default_value=1
 
 set exit_status_marker=ERRORLEVEL
 
-set text_bugreport=Diagnostic logging is
 set text_debugging=Script debugging is
+set text_diagnostics=Diagnostic logging is
 set text_expansion=Delayed expansion is
-set text_extension=Command Extensions are
+set text_extensions=Command Extensions are
 
 set text_enabled=ON
 set text_disabled=OFF
@@ -67,7 +67,7 @@ set $println=echo
 @rem Toggles and prints the status of diagnostic logging for issue debugging
 @rem for this invocation of the primary command interpreter
 @rem (specified by the `SHELL` variable) to the primary output device.
-%$doskey% /exename=%SHELL% ^'^' = ^>%STREAM% (if not "%%%diagnostics_marker%%%"=="%diagnostics_default_value%" ((set %diagnostics_marker%=%diagnostics_default_value%) ^& (%$println% %text_bugreport% %text_enabled%.)) else ((set %diagnostics_marker%=) ^& (%$println% %text_bugreport% %text_disabled%.))) ^& %$true%
+%$doskey% /exename=%SHELL% ^'^' = ^>%STREAM% (if not "%%%diagnostics_marker%%%"=="%diagnostics_default_value%" ((set %diagnostics_marker%=%diagnostics_default_value%) ^& (%$println% %text_diagnostics% %text_enabled%.)) else ((set %diagnostics_marker%=) ^& (%$println% %text_diagnostics% %text_disabled%.))) ^& %$true%
 
 @rem Prints the exit status of the most recently executed foreground command,
 @rem i.e. `ERRORLEVEL`, for this invocation of the primary command interpreter
@@ -77,7 +77,7 @@ set $println=echo
 @rem Prints the status of `cmd.exe` Command Extensions (enabled or disabled;
 @rem enabled by default) for this invocation of the primary command interpreter
 @rem (specified by the `SHELL` variable) to the primary output device.
-%$doskey% /exename=%SHELL% ^?^? = ^>%STREAM% ((set ^^^"^^^") ^>nul 2^>^&1 ^&^& (%$println% %text_extension% %text_enabled%.) ^|^| (%$println% %text_extension% %text_disabled%.)) ^& %$true%
+%$doskey% /exename=%SHELL% ^?^? = ^>%STREAM% ((set ^^^"^^^") ^>nul 2^>^&1 ^&^& (%$println% %text_extensions% %text_enabled%.) ^|^| (%$println% %text_extensions% %text_disabled%.)) ^& %$true%
 
 @rem Accepts an optional string; if provided, prints all DOSKEY aliases defined
 @rem for this invocation of the primary command interpreter (specified by the
