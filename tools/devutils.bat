@@ -62,12 +62,12 @@ set $println=echo
 @rem Toggles and prints the status of command script debugging via `@echo on`
 @rem for this invocation of the primary command interpreter
 @rem (specified by the `SHELL` variable) to the primary output device.
-%$doskey% /exename=%SHELL% ^' = ^>%STREAM% (if not "%%%debugging_marker%%%"=="%debugging_default_value%" ((set %debugging_marker%=%debugging_default_value%) ^& (%$println% %text_debugging% %text_enabled%.)) else ((set %debugging_marker%=) ^& (%$println% %text_debugging% %text_disabled%.))) ^& %$true%
+%$doskey% /exename=%SHELL% ^' = ^>%STREAM% (if not "%%%debugging_marker%%%"=="%debugging_default_value%" ((set %debugging_marker%=%debugging_default_value%) ^& (%$println% %text_debugging% %text_enabled%.) ^& %$true%) else ((set %debugging_marker%=) ^& (%$println% %text_debugging% %text_disabled%.) ^& %$false%))
 
 @rem Toggles and prints the status of diagnostic logging for issue debugging
 @rem for this invocation of the primary command interpreter
 @rem (specified by the `SHELL` variable) to the primary output device.
-%$doskey% /exename=%SHELL% ^'^' = ^>%STREAM% (if not "%%%diagnostics_marker%%%"=="%diagnostics_default_value%" ((set %diagnostics_marker%=%diagnostics_default_value%) ^& (%$println% %text_diagnostics% %text_enabled%.)) else ((set %diagnostics_marker%=) ^& (%$println% %text_diagnostics% %text_disabled%.))) ^& %$true%
+%$doskey% /exename=%SHELL% ^'^' = ^>%STREAM% (if not "%%%diagnostics_marker%%%"=="%diagnostics_default_value%" ((set %diagnostics_marker%=%diagnostics_default_value%) ^& (%$println% %text_diagnostics% %text_enabled%.) ^& %$true%) else ((set %diagnostics_marker%=) ^& (%$println% %text_diagnostics% %text_disabled%.) ^& %$false%))
 
 @rem Prints the exit status of the most recently executed foreground command,
 @rem i.e. `ERRORLEVEL`, for this invocation of the primary command interpreter
@@ -77,7 +77,7 @@ set $println=echo
 @rem Prints the status of `cmd.exe` Command Extensions (enabled or disabled;
 @rem enabled by default) for this invocation of the primary command interpreter
 @rem (specified by the `SHELL` variable) to the primary output device.
-%$doskey% /exename=%SHELL% ^?^? = ^>%STREAM% ((set ^^^"^^^") ^>nul 2^>^&1 ^&^& (%$println% %text_extensions% %text_enabled%.) ^|^| (%$println% %text_extensions% %text_disabled%.)) ^& %$true%
+%$doskey% /exename=%SHELL% ^?^? = ^>%STREAM% ((set ^^^"^^^") ^>nul 2^>^&1 ^&^& (%$println% %text_extensions% %text_enabled%.) ^&^& %$true% ^|^| (%$println% %text_extensions% %text_disabled%.) ^&^& %$false%)
 
 @rem Accepts an optional string; if provided, prints all DOSKEY aliases defined
 @rem for this invocation of the primary command interpreter (specified by the
@@ -93,6 +93,6 @@ set $println=echo
 @rem Prints the status of delayed environment variable expansion (enabled
 @rem or disabled) for this invocation of the primary command interpreter
 @rem (specified by the `SHELL` variable) to the primary output device.
-%$doskey% /exename=%SHELL% ^!^! = ^>%STREAM% (if "^!^"=="^!" (%$println% %text_expansion% %text_enabled%.) else (%$println% %text_expansion% %text_disabled%.)) ^& %$true%
+%$doskey% /exename=%SHELL% ^!^! = ^>%STREAM% (if "^!^"=="^!" ((%$println% %text_expansion% %text_enabled%.) ^& %$true%) else ((%$println% %text_expansion% %text_disabled%.) ^& %$false%))
 
 if "%OS%"=="Windows_NT" endlocal
