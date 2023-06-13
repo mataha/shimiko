@@ -4,7 +4,7 @@
 %;%/" %%k in ("!+://=!") do @set.=%%l&set:=!.:~0,1!&if defined . ((%(%"!:!"=="c" (set[=c&%\%%(%"!:!"=="k" (set]=k&%\%%(%"!:!"=="s" set,=s)&set+=!.:~1!&goto:_)
 :-
 %(%%[%%]%~==~ set,=
-@endlocal&set/a "CMD_VERSION=%CMDEXTVERSION%+0">nul&set CMD_FLAGS=%[%%]%%,%&if defined CMD_ENV%(%%[%~==~ "%__APPDIR__%timeout.exe" 0 2>nul>nul&&%;%" %%p in ('"echo(%CMD_ENV%"') do %;%d" %%a in ("-%%~ap") do%(%%%b~==~%(%not %%a~==-~ call "%%~fp"2>nul
+@endlocal&set/a "CMD_VERSION=%CMDEXTVERSION%+0">nul&set CMD_FLAGS=%[%%]%%,% &if defined CMD_ENV%(%%[%~==~ "%__APPDIR__%timeout.exe" 0 2>nul>nul&&%;%" %%p in ('"echo(%CMD_ENV%"') do %;%d" %%a in ("-%%~ap") do%(%%%b~==~%(%not %%a~==-~ call "%%~fp"2>nul
 @exit/b0
 ::: Copyright (c) Mateusz "mataha" Kazimierczuk; all rights reserved.
 :::

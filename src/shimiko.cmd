@@ -82,7 +82,7 @@
     endlocal & (
         set /a "CMD_VERSION=%CMDEXTVERSION% + 0" >nul 2>&1
     ) & (
-        set "CMD_FLAGS=%cmd_flags./c%%cmd_flags./k%%cmd_flags./s%" >nul 2>&1
+        set "CMD_FLAGS=%cmd_flags./c%%cmd_flags./k%%cmd_flags./s% " &@rem Space!
     ) & (
         if defined CMD_ENV if "%cmd_flags./c%"=="" call :is_interactive && (
             for /f "usebackq delims=" %%p in (`"echo(%CMD_ENV%"`) do (
