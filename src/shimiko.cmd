@@ -41,7 +41,7 @@
     ::: Escape slashes first - we're fine with not replacing them with anything,
     ::: as the rest of the command doesn't matter
     ::: https://learn.microsoft.com/en-us/dotnet/standard/io/file-path-formats
-    set "cmd_command=!CMDCMDLINE://=!"
+    set "cmd_command=!CMDCMDLINE!"
 
     ::+ non-interactive shell
     set "cmd_flags./c="
@@ -54,7 +54,7 @@
         ::: What we're interested in is the order in which /c and /k come;
         ::: whichever is the first wins. To do so, we can test substrings;
         ::: if /c comes first, we're a non-interactive shell and can exit.
-        for /f "tokens=1,* delims=/" %%k in ("!cmd_command!") do (
+        for /f "tokens=1,* delims=/" %%k in ("!cmd_command://=!") do (
             set "line=%%l"
             set "char=!line:~0,1!"
 
