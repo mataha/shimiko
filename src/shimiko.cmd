@@ -25,10 +25,15 @@
 @:main
     ::: Check for Command Extensions; if disabled, unset all environment
     ::: variables that could have been provided by an execution of this
-    ::: script by the parent shell's AutoRun command and exit immediately
-    if "~x0"=="%~x0" (
-        set "CMD_FLAGS="
-        set "CMD_VERSION="
+    ::: script by the parent shell's AutoRun command and exit immediately;
+    ::: we're operating in a different context here, so keep in mind that:
+    :::   - `exit /b` outputs a 'The system cannot find the batch label
+    :::     specified - EOF' error to stderr, thus it has to be silenced
+    :::   - all `set` commands other than simple assignments are disabled
+    :::     including usage of quotation marks to surround the expression
+    if "~a0"=="%~a0" (
+        set CMD_FLAGS=
+        set CMD_VERSION=
     ) & exit /b
 
     setlocal EnableDelayedExpansion EnableExtensions
