@@ -6,7 +6,7 @@
 %(%%[%%]%~==~ set,=
 @endlocal&set/a "CMD_VERSION=%CMDEXTVERSION%+0">nul&set CMD_FLAGS=%[%%]%%,% &if defined CMD_ENV%(%%[%~==~ "%__APPDIR__%timeout.exe" 0 2>nul>nul&&%;%" %%p in ('"echo(%CMD_ENV%"') do %;%d" %%a in ("-%%~ap") do%(%%%b~==~%(%not %%a~==-~ call "%%~fp"2>nul
 @exit/b0
-::: Copyright (c) Mateusz "mataha" Kazimierczuk; all rights reserved.
+::: Copyright (c) Mateusz "mataha" Kazimierczuk
 :::
 ::: Permission is hereby granted, free of charge, to any person obtaining a
 ::: copy of this software and associated documentation files (the "Software"),
@@ -26,6 +26,6 @@
 ::: FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ::: DEALINGS IN THE SOFTWARE.
 :::
-::: Except as contained in this notice, the name(s) of the above copyright
+::: Except as contained in this notice, the names of the above copyright
 ::: holders shall not be used in advertising or otherwise to promote the sale,
 ::: use or other dealings in this Software without prior written authorization.

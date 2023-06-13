@@ -1,4 +1,4 @@
-::: Copyright (c) Mateusz "mataha" Kazimierczuk; all rights reserved.
+::: Copyright (c) Mateusz "mataha" Kazimierczuk
 :::
 ::: Permission is hereby granted, free of charge, to any person obtaining a
 ::: copy of this software and associated documentation files (the "Software"),
@@ -18,7 +18,7 @@
 ::: FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 ::: DEALINGS IN THE SOFTWARE.
 :::
-::: Except as contained in this notice, the name(s) of the above copyright
+::: Except as contained in this notice, the names of the above copyright
 ::: holders shall not be used in advertising or otherwise to promote the sale,
 ::: use or other dealings in this Software without prior written authorization.
 
