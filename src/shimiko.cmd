@@ -59,7 +59,9 @@
             set "char=!line:~0,1!"
 
             if defined line (
-                %=/i=% if /i "!char!"=="c" (
+                %=/c=% if /i "!char!"=="r" (
+                    set   "cmd_flags./c=c"  & goto :shimiko_break
+                ) else if /i "!char!"=="c" (
                     set   "cmd_flags./c=c"  & goto :shimiko_break
                 ) else if /i "!char!"=="k" (
                     set   "cmd_flags./k=k"  & goto :shimiko_break
@@ -76,7 +78,9 @@
     :shimiko_break
         ::: Hide `/s` if it's not paired with wither `/c` or `/k`
         ::: as it does not do anything of relevancy on its own
-        if "%cmd_flags./c%%cmd_flags./k%"=="" set "cmd_flags./s="
+        if "%cmd_flags./c%"=="" if "%cmd_flags./k%"=="" (
+            set "cmd_flags./s="
+        )
 
     ::: execute CMD_ENV if it exists and is a regular file
     endlocal & (
