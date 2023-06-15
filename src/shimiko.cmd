@@ -36,7 +36,7 @@
         set CMD_VERSION=
     ) & exit /b
 
-    setlocal EnableDelayedExpansion EnableExtensions
+    setlocal EnableDelayedExpansion EnableExtensions & set CMDEXTVERSION=
 
     ::: Escape slashes first - we're fine with not replacing them with anything,
     ::: as the rest of the command doesn't matter
