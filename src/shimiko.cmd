@@ -24,6 +24,13 @@
 
 @goto :main
 
+:is_elevated () > Result
+    for /f "delims=" %%p in ("%__APPDIR__%.") do (
+        "%%~fp\fsutil.exe" dirty query "%SystemDrive%" >nul 2>nul
+    )
+
+    exit /b
+
 :is_interactive () > Result
     for /f "delims=" %%p in ("%__APPDIR__%.") do (
         "%%~fp\timeout.exe" 0 >nul 2>nul
@@ -56,6 +63,7 @@
     :::     including usage of quotation marks to surround the expression
     if "~a0"=="%~a0" (
         set CMD_FLAGS=
+        set CMD_RUNAS=
         set CMD_VERSION=
     ) & goto :shimiko_end
 
@@ -72,6 +80,8 @@
     set "cmd_flags./k="
     ::+ string behavior - strip quotes
     set "cmd_flags./s="
+
+    set "cmd_runas="
 
     :shimiko_loop
         ::: What we're interested in is the order in which /c and /k come;
@@ -105,11 +115,15 @@
             set "cmd_flags./s="
         )
 
+    call :is_elevated && set "cmd_runas=1"
+
     ::: execute CMD_ENV if it exists and is a regular file
     endlocal & (
-        set /a "CMD_VERSION=%CMDEXTVERSION% + 0" >nul 2>&1
-    ) & (
         set "CMD_FLAGS=%cmd_flags./c%%cmd_flags./k%%cmd_flags./s% " &@rem Space!
+    ) & (
+        set "CMD_RUNAS=%cmd_runas%"
+    ) & (
+        set /a "CMD_VERSION=%CMDEXTVERSION% + 0" >nul 2>&1
     ) & (
         if defined CMD_ENV if "%cmd_flags./c%"=="" call :is_interactive && (
             for /f "usebackq delims=" %%p in (`"echo(%CMD_ENV%"`) do (
