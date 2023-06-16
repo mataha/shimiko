@@ -134,6 +134,8 @@
                 call :is_regular_file "%%~p" && call "%%~fp" 2>nul
             )
         )
-    ) & (call ) & goto :shimiko_end
+    ) & goto :shimiko_end
 
     :shimiko_end
+
+        (goto) 2>nul & (call )
