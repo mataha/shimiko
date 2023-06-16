@@ -22,19 +22,42 @@
 ::: holders shall not be used in advertising or otherwise to promote the sale,
 ::: use or other dealings in this Software without prior written authorization.
 
+@goto :main
+
+:is_interactive () > Result
+    for /f "delims=" %%p in ("%__APPDIR__%.") do (
+        "%%~fp\timeout.exe" 0 >nul 2>nul
+    )
+
+    exit /b
+
+::: Checks if the file located by this path is a regular file.
+::: Follows symbolic links in the path.
+::: See also: https://learn.microsoft.com/en-gb/windows/win32/fileio/file-attribute-constants
+:is_regular_file (path: string?) > Result
+    for /f "tokens=1,* delims=d" %%a in ("-%~a1") do (
+        if "%%b"=="" if not "%%a"=="-" (
+            exit /b 0 "FILE_ATTRIBUTE_NORMAL or a normal or extended attribute"
+        )
+    )
+
+    exit /b 1 "File does not exist, is a directory, or it cannot be determined"
+
 @:main
     ::: Check for Command Extensions; if disabled, unset all environment
     ::: variables that could have been provided by an execution of this
     ::: script by the parent shell's AutoRun command and exit immediately;
     ::: we're operating in a different context here, so keep in mind that:
     :::   - `exit /b` outputs a 'The system cannot find the batch label
-    :::     specified - EOF' error to stderr, thus it has to be silenced
+    :::     specified - EOF' error to stderr, thus it has to be silenced;
+    :::     furthermore, environment will not be restored cleanly (script
+    :::     title will persist), forcing us to `goto` to a terminal label
     :::   - all `set` commands other than simple assignments are disabled
     :::     including usage of quotation marks to surround the expression
     if "~a0"=="%~a0" (
         set CMD_FLAGS=
         set CMD_VERSION=
-    ) & exit /b
+    ) & goto :shimiko_end
 
     setlocal EnableDelayedExpansion EnableExtensions & set CMDEXTVERSION=
 
@@ -93,16 +116,6 @@
                 call :is_regular_file "%%~p" && call "%%~fp" 2>nul
             )
         )
-    ) & exit /b 0
+    ) & (call ) & goto :shimiko_end
 
-:is_interactive () -> Result
-    "%SystemRoot%\System32\timeout.exe" 0 >nul 2>nul & exit /b
-
-:is_regular_file (path) -> Result
-    for /f "tokens=1,* delims=d" %%a in ("-%~a1") do (
-        if "%%b"=="" if not "%%a"=="-" (
-            exit /b 0 &@rem FILE_ATTRIBUTE_NORMAL at the very least
-        )
-    )
-
-    exit /b 1 &@rem FILE_ATTRIBUTE_DIRECTORY or not available or does not exist
+    :shimiko_end
