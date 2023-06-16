@@ -81,6 +81,8 @@
     ::+ string behavior - strip quotes
     set "cmd_flags./s="
 
+    set "cmd_flags.-="
+
     set "cmd_runas="
 
     :shimiko_loop
@@ -117,15 +119,17 @@
 
     call :is_elevated && set "cmd_runas=1"
 
+    call :is_interactive || set "cmd_flags.-=-"
+
     ::: execute CMD_ENV if it exists and is a regular file
     endlocal & (
-        set "CMD_FLAGS=%cmd_flags./c%%cmd_flags./k%%cmd_flags./s% " &@rem Space!
+        set "CMD_FLAGS=%cmd_flags./c%%cmd_flags./k%%cmd_flags./s%%cmd_flags.-% "
     ) & (
         set "CMD_RUNAS=%cmd_runas%"
     ) & (
         set /a "CMD_VERSION=%CMDEXTVERSION% + 0" >nul 2>&1
     ) & (
-        if defined CMD_ENV if "%cmd_flags./c%"=="" call :is_interactive && (
+        if defined CMD_ENV if "%cmd_flags./c%"=="" if "%cmd_flags.-%"=="" (
             for /f "usebackq delims=" %%p in (`"echo(%CMD_ENV%"`) do (
                 call :is_regular_file "%%~p" && call "%%~fp" 2>nul
             )

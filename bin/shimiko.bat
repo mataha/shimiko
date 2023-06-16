@@ -1,10 +1,10 @@
 @if "~a0"=="%~a0" set CMD_FLAGS=&set CMD_RUNAS=&set CMD_VERSION=&goto(
-@setlocal EnableDelayedExpansion EnableExtensions&set CMDEXTVERSION=&set+=!CMDCMDLINE!&set,=&set[=&set]=&set(= @if /i &set\=goto])else&set;=@for /f "tokens=1* delims=
+@setlocal EnableDelayedExpansion EnableExtensions&set+=!CMDCMDLINE!&set,=&set[=&set]=&set -=&set _=&set(= @if /i &set\=goto])else&set;=@for /f "tokens=1* delims=
 :[
-%;%/" %%k in ("!+://=!") do @set.=%%l&set:=!.:~0,1!&if defined . ((%(%"!:!"=="c" (set[=c&%\%%(%"!:!"=="r" (set[=c&%\%%(%"!:!"=="k" (set]=k&%\%%(%"!:!"=="s" set,=s)&set+=!.:~1!&goto[)
+%;%/" %%k in ("!+://=!") do @set.=%%l&set:=!.:~0,1!&if defined . ((%(%"!:!"=="r" (set[=c&%\%%(%"!:!"=="c" (set[=c&%\%%(%"!:!"=="k" (set]=k&%\%%(%"!:!"=="s" set,=s)&set+=!.:~1!&goto[)
 :]
-%(%%[%%]%~==~ set,=
-@endlocal&"%__APPDIR__%fsutil.exe" dirty query %SystemDrive% 2>nul>nul&&set CMD_RUNAS=1||set CMD_RUNAS=&set/a CMD_VERSION=%CMDEXTVERSION%+0&set CMD_FLAGS=%[%%]%%,% &if defined CMD_ENV%(%%[%~==~ "%__APPDIR__%timeout.exe" 0 2>nul>nul&&%;%" %%p in ('"echo(%CMD_ENV%"') do %;%d" %%a in ("-%%~ap") do%(%%%b~==~%(%not %%a~==-~ call "%%~fp"2>nul
+@set CMDEXTVERSION=&"%__APPDIR__%fsutil.exe" dirty query %SystemDrive% 2>nul>nul&&set _=1&"%__APPDIR__%timeout.exe" 0 2>nul>nul||set -=-&%(%%[%%]%~==~ set,=
+@endlocal&set CMD_FLAGS=%[%%]%%,%%-% &set CMD_RUNAS=%_%&set/a CMD_VERSION=%CMDEXTVERSION%+0&if defined CMD_ENV%(%%[%%-%~==~ %;%" %%p in ('"echo(%CMD_ENV%"') do %;%d" %%a in ("-%%~ap") do%(%%%b~==~%(%not %%a~==-~ call "%%~fp"2>nul
 @call &goto(
 ::: Copyright (c) Mateusz "mataha" Kazimierczuk
 :::
