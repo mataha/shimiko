@@ -64,7 +64,6 @@
     if "~a0"=="%~a0" (
         set CMD_FLAGS=
         set CMD_RUNAS=
-        set CMD_SUBSHELL=
         set CMD_VERSION=
     ) & call & goto :shimiko_end
 
@@ -122,19 +121,11 @@
 
     call :is_interactive || set "cmd_flags.-=-"
 
-    if defined CMD_SUBSHELL (
-        set /a "CMD_SUBSHELL+=1"
-    ) else (
-        set /a "CMD_SUBSHELL=0"
-    )
-
     ::: execute CMD_ENV if it exists and is a regular file
     endlocal & (
         set "CMD_FLAGS=%cmd_flags./c%%cmd_flags./k%%cmd_flags./s%%cmd_flags.-% "
     ) & (
         set "CMD_RUNAS=%cmd_runas%"
-    ) & (
-        set /a "CMD_SUBSHELL=%CMD_SUBSHELL% + 0" >nul 2>&1
     ) & (
         set /a "CMD_VERSION=%CMDEXTVERSION% + 0" >nul 2>&1
     ) & (
