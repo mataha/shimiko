@@ -66,7 +66,7 @@
         set CMD_RUNAS=
         set CMD_SUBSHELL=
         set CMD_VERSION=
-    ) & goto :shimiko_end
+    ) & call & goto :shimiko_end
 
     setlocal EnableDelayedExpansion EnableExtensions & set CMDEXTVERSION=
 
@@ -143,8 +143,6 @@
                 call :is_regular_file "%%~p" && call "%%~fp" 2>nul
             )
         )
-    ) & goto :shimiko_end
+    ) & exit /b 0
 
     :shimiko_end
-
-        (goto) 2>nul & (call )
