@@ -26,14 +26,14 @@
 
 :is_elevated () > Result
     for /f "delims=" %%p in ("%__APPDIR__%.") do (
-        "%%~fp\fsutil.exe" dirty query "%SystemDrive%" >nul 2>nul
+        "%%~fp\fsutil.exe" dirty query "%SystemDrive%" >nul
     )
 
     exit /b
 
 :is_interactive () > Result
     for /f "delims=" %%p in ("%__APPDIR__%.") do (
-        "%%~fp\timeout.exe" 0 >nul 2>nul
+        "%%~fp\timeout.exe" 0 >nul 2>&1
     )
 
     exit /b
@@ -81,8 +81,6 @@
     ::+ string behavior - strip quotes
     set "cmd_flags./s="
 
-    set "cmd_flags.-="
-
     set "cmd_runas="
 
     :shimiko_loop
@@ -119,17 +117,15 @@
 
     call :is_elevated && set "cmd_runas=1"
 
-    call :is_interactive || set "cmd_flags.-=-"
-
     ::: execute CMD_ENV if it exists and is a regular file
     endlocal & (
-        set "CMD_FLAGS=%cmd_flags./c%%cmd_flags./k%%cmd_flags./s%%cmd_flags.-% "
+        set "CMD_FLAGS=%cmd_flags./c%%cmd_flags./k%%cmd_flags./s% "
     ) & (
         set "CMD_RUNAS=%cmd_runas%"
     ) & (
         set /a "CMD_VERSION=%CMDEXTVERSION% + 0" >nul 2>&1
     ) & (
-        if defined CMD_ENV if "%cmd_flags./c%"=="" if "%cmd_flags.-%"=="" (
+        if defined CMD_ENV if "%cmd_flags./c%"=="" call :is_interactive && (
             for /f "usebackq delims=" %%p in (`"echo(%CMD_ENV%"`) do (
                 call :is_regular_file "%%~p" && call "%%~fp" 2>nul
             )
