@@ -83,11 +83,13 @@
     set "cmd_flags./s="
 
     :shimiko_loop
-        ::: What we're interested in is the order in which /c and /k come;
-        ::: whichever is the first wins. To do so, we can test substrings;
-        ::: if /c comes first, we're a non-interactive shell and can exit.
+        ::: What we're interested in is the order in which `/c` and `/k` come;
+        ::: whichever gets parsed first wins. To do so, we can test substrings;
+        ::: if parser detects `/c` we're a non-interactive shell and can exit.
+        ::: Escape slashes first - we're fine with them not being replaced; see
+        ::: https://learn.microsoft.com/en-us/dotnet/standard/io/file-path-formats
         for /f "tokens=1,* delims=/" %%k in ("!cmd_command://=!") do (
-            set "line=%%l"
+            set "line=%%~l"
             set "char=!line:~0,1!"
 
             if defined line (
