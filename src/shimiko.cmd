@@ -51,21 +51,22 @@
     exit /b 1 "File does not exist, is a directory, or it cannot be determined"
 
 @:main
-    ::: Check for Command Extensions; if disabled, unset all environment
+    ::: Check for Command Extensions; if disabled, modify all environment
     ::: variables that could have been provided by an execution of this
-    ::: script by the parent shell's AutoRun command and exit immediately;
+    ::: script by the parent shell's AutoRun command manually, then reset;
     ::: we're operating in a different context here, so keep in mind that:
     :::   - `exit /b` outputs a 'The system cannot find the batch label
     :::     specified - EOF' error to stderr, thus it has to be silenced;
     :::     furthermore, environment will not be restored cleanly (script
     :::     title will persist), forcing us to `goto` to a terminal label
+    :::   - `goto :EOF` makes a jump to a label named `EOF`; doesn't exit
     :::   - all `set` commands other than simple assignments are disabled
     :::     including usage of quotation marks to surround the expression
     if "~a0"=="%~a0" (
-        set CMD_FLAGS=
-        set CMD_RUNAS=
+        set CMD_FLAGS=y?
+        set CMD_RUNAS=%CMD_RUNAS%
         set CMD_VERSION=
-    ) & call & goto :shimiko_end
+    ) & call & goto :EOF
 
     setlocal EnableDelayedExpansion EnableExtensions & set CMDEXTVERSION=
 
@@ -80,8 +81,6 @@
     set "cmd_flags./k="
     ::+ string behavior - strip quotes
     set "cmd_flags./s="
-
-    set "cmd_runas="
 
     :shimiko_loop
         ::: What we're interested in is the order in which /c and /k come;
@@ -101,7 +100,7 @@
                 ) else if /i "!char!"=="s" (
                     set   "cmd_flags./s=s"
                 ) else if /i "!char!"=="d" (
-                    (goto) 2>nul & exit /b 1 &@rem unreachable!("no AutoRun");
+                    (goto) 2>nul & exit /b 1 "AutoRun commands are disabled"
                 )
 
                 set "cmd_command=!line:~1!" & goto :shimiko_loop
@@ -115,11 +114,11 @@
             set "cmd_flags./s="
         )
 
-    call :is_elevated && set "cmd_runas=1"
+    call :is_elevated && set "cmd_runas=1" || set "cmd_runas="
 
     ::: execute CMD_ENV if it exists and is a regular file
     endlocal & (
-        set "CMD_FLAGS=%cmd_flags./c%%cmd_flags./k%%cmd_flags./s% "
+        set "CMD_FLAGS=%cmd_flags./c%%cmd_flags./k%%cmd_flags./s%x"
     ) & (
         set "CMD_RUNAS=%cmd_runas%"
     ) & (
@@ -132,4 +131,4 @@
         )
     ) & exit /b 0
 
-    :shimiko_end
+    :EOF
